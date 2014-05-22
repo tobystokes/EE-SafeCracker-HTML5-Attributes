@@ -29,11 +29,11 @@
 class Safecracker_html5_attributes_ext {
 	
 	public $settings 		= array();
-	public $description		= 'Add HTML5 attributes to the available Safecracker Parameters.';
+	public $description		= 'Add HTML5 attributes to the available Channel form Parameters.';
 	public $docs_url		= '';
-	public $name			= 'Safecracker HTML5 Attributes';
+	public $name			= 'Channel form HTML5 Attributes';
 	public $settings_exist	= 'n';
-	public $version			= '1.0';
+	public $version			= '1.1';
 	
 	private $EE, $obj, $params;
 	
@@ -65,8 +65,8 @@ class Safecracker_html5_attributes_ext {
 
 		$data = array(
 			'class'		=> __CLASS__,
-			'method'	=> 'safecracker_entry_form_tagdata_end',
-			'hook'		=> 'safecracker_entry_form_tagdata_end',
+			'method'	=> 'channel_form_entry_form_tagdata_end',
+			'hook'		=> 'channel_form_entry_form_tagdata_end',
 			'settings'	=> serialize($this->settings),
 			'version'	=> $this->version,
 			'enabled'	=> 'y'
@@ -110,12 +110,12 @@ class Safecracker_html5_attributes_ext {
 	
 	// ----------------------------------------------------------------------
 
-	public function safecracker_entry_form_tagdata_end($tagdata, &$obj)
+	public function channel_form_entry_form_tagdata_end($tagdata, $channel_form_obj)
 	{
-		$this->obj =& $obj;
+		//$this->obj =& $obj;
 
 		// data-* attributes
-		$params = $this->obj->EE->TMPL->tagparams;
+		$params = ee()->TMPL->tagparams;
 		$attrs = '';
 
 		foreach ($params as $attr => $val)
@@ -148,7 +148,7 @@ class Safecracker_html5_attributes_ext {
 	private function param($param, $default = FALSE, $boolean = FALSE, $required = FALSE)
 	{
 		$name	= $param;
-		$param 	= $this->obj->EE->TMPL->fetch_param($param);
+		$param 	= ee()->TMPL->fetch_param($param);
 		
 		if($required && !$param) show_error('You must define a "'.$name.'" parameter in the '.__CLASS__.' tag.');
 			
